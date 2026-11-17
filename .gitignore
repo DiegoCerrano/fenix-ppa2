@@ -1,0 +1,10 @@
+.env
+.venv/
+__pycache__/
+*.egg-info/
+data/
+logs/
+volume/
+.pytest_cache/
+.DS_Store
+Claude outputs/
