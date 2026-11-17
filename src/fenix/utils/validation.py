@@ -7,7 +7,7 @@ from datetime import datetime, timedelta, timezone
 
 from fenix.utils.errors import ValidationError
 
-_ID = re.compile(r"[a-z0-9-]{3, 32}")
+_ID = re.compile(r"[a-z0-9-]{3,32}")
 
 
 def identifier(value, field="id"):
@@ -30,7 +30,7 @@ def identifier(value, field="id"):
     """
 
     if not isinstance(value, str) or not _ID.fullmatch(value):
-        raise ValidationError(f"{field} must be text [a-z0-9-]{{3, 32}}")
+        raise ValidationError(f"{field} must be text [a-z0-9-]{{3,32}}")
     return value
 
 
