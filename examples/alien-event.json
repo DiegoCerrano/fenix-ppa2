@@ -1,0 +1,8 @@
+{
+    "schema_version": 1,
+    "event_id": "evt-alien-001",
+    "event_type": "instance.stopped",
+    "resource_id": "node-99",
+    "occurred_at": "2026-11-10T18:10:00Z",
+    "simulate_failures": 0
+}
