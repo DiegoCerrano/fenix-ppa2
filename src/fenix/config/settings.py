@@ -16,7 +16,7 @@ _LOOPBACK = {"localhost", "127.0.0.1", "::1"}
 
 
 def load_env(path=".env"):
-    """Load ``KEYVALUE`` lines from a dotenv file into ``os.environ``.
+    """Load ``KEY=VALUE`` lines from a dotenv file into ``os.environ``.
 
     Args:
         path: Path of the file. Missing files are silently ignored.
@@ -28,8 +28,8 @@ def load_env(path=".env"):
         None.
 
     Side Effects:
-        Overwrintes existing environment variables with file values,
-    so the project always wins over the shell. 
+        Overwrites existing environment variables with the file values, so
+        the project ``.env`` always wins over the shell.
     """
 
     file = Path(path)
@@ -47,11 +47,11 @@ def env(name, default=""):
     """Read an environment variable.
 
     Args:
-        name: Variable Name.
+        name: Variable name.
         default: Value returned when the variable is not set.
 
     Returns:
-        The variable value or default.
+        The variable value, or default.
 
     Raises:
         None.
@@ -61,13 +61,13 @@ def env(name, default=""):
 
 
 def group_id():
-    """Return the group identifier used in name and tags.
+    """Return the group identifier used in names and tags.
 
     Args:
         None.
 
     Returns:
-        The ``GROUP_ID`` value (default ``grupo01``)
+        The ``GROUP_ID`` value (default ``grupo01``).
 
     Raises:
         ConfigError: If the value is not a valid slug (see ``identifier``).
@@ -80,19 +80,19 @@ def group_id():
 
 
 def data_dir():
-    """Return de folder that holds inventory and ledger files.
+    """Return the folder that holds inventory and ledger files.
 
     Args:
         None.
 
     Returns:
-        A ``Path`` (``data/`` or ``FENIX_DATA_DIR``.)
+        A ``Path`` (``data/`` or ``FENIX_DATA_DIR``).
 
     Raises:
         OSError: If the folder cannot be created.
 
     Side Effects:
-        Create the folder when it does not exist.
+        Creates the folder when it does not exist.
     """
 
     folder = Path(env("FENIX_DATA_DIR", "data"))
@@ -107,7 +107,7 @@ def log_dir():
         None.
 
     Returns:
-        A ``Path`` (``logs/`` or ``FENIX_LOG_DIR``)
+        A ``Path`` (``logs/`` or ``FENIX_LOG_DIR``).
 
     Side Effects:
         Creates the folder when it does not exist.
@@ -135,7 +135,7 @@ def log_level():
 
 
 def log_max_bytes():
-    """Return the file size that triggers log rotatios.
+    """Return the file size that triggers log rotation.
 
     Args:
         None.
@@ -151,7 +151,7 @@ def log_max_bytes():
 
 
 def queue_names():
-    """Returns the names of the main queue and of its dead-letter-queue.
+    """Return the names of the main queue and of its dead-letter queue.
 
     Args:
         None.
@@ -177,34 +177,34 @@ def webhook_secret():
         The ``WEBHOOK_SECRET`` value.
 
     Raises:
-        ConfigError: If the is missing or shorter than 16 characters.
+        ConfigError: If the secret is missing or shorter than 16 characters.
     """
 
     secret = env("WEBHOOK_SECRET")
     if len(secret) < 16:
         raise ConfigError(
-            "WEBHOOK_SECRET is missing or shorter than 16 characteres")
+            "WEBHOOK_SECRET falta o tiene menos de 16 caracteres")
     return secret
 
 
 def endpoint_url():
-    """Return the Localstack URL after checking it is a loopback address.
+    """Return the LocalStack URL after checking it is a loopback address.
 
     Args:
         None.
 
     Returns:
-        The ``AWS_ENDPOINT_URL`` value (default ``http://localhost:4566``)
+        The ``AWS_ENDPOINT_URL`` value (default ``http://localhost:4566``).
 
     Raises:
-        ConfigError: If the is not loopback or the port is not 4566.
-            This protects against operating on real AWS by mistake.  
+        ConfigError: If the host is not loopback or the port is not 4566.
+            This protects against operating on real AWS by mistake.
     """
 
     url = env("AWS_ENDPOINT_URL", "http://localhost:4566")
     parsed = urlparse(url)
     if parsed.hostname not in _LOOPBACK or parsed.port != 4566:
-        raise ConfigError("AWS_ENDPOINT_URL must point at loopback:4566")
+        raise ConfigError("AWS_ENDPOINT_URL debe apuntar a loopback:4566")
     return url
 
 
@@ -226,7 +226,7 @@ def aws_credentials():
     key = env("AWS_ACCESS_KEY_ID", "test")
     secret = env("AWS_SECRET_ACCESS_KEY", "test")
     if key.startswith(("AKIA", "ASIA")):
-        raise ConfigError("It looks like a real AWS key: use the fake ones")
+        raise ConfigError("Parece una clave real de AWS: usá las ficticias")
     return key, secret
 
 

@@ -36,7 +36,8 @@ def get_client(service):
     """
 
     if service not in SERVICES:
-        raise ConfigError(f"Unknown service {service!r}: use one of {SERVICES}")
+        raise ConfigError(
+            f"Servicio desconocido {service!r}: usá sqs, s3 o ec2")
     key, secret = settings.aws_credentials()
     options = {
         "connect_timeout": 2,

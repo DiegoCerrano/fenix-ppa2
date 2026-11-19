@@ -1,16 +1,12 @@
-"""
-    Domain exception for Fenix. Every one inherits from FenixError.
+"""Domain exceptions for Fenix. Every one inherits from FenixError.
 
-    The worker decides what to do with a failure by looking at the
-    exception.
-
-    type: transient errors are retried, permanent ones are kept for
-    the DLQ. 
+The worker decides what to do with a failure by looking at the exception
+type: transient errors are retried, permanent ones are kept for the DLQ.
 """
 
 
 class FenixError(Exception):
-    """Base class of every error raised on purpuse by this project."""
+    """Base class of every error raised on purpose by this project."""
 
 
 class ConfigError(FenixError):
@@ -51,9 +47,9 @@ class TransientError(FenixError):
     def __init__(self, message, retry_after=0):
         """Build the error.
 
-        Args: 
+        Args:
             message: Human readable description (must not contain secrets).
-            retry_after: Seconds to wait before retrying, if known. 
+            retry_after: Seconds to wait before retrying, if known.
 
         Returns:
             None.
@@ -79,4 +75,4 @@ class NotifyPermanentError(PermanentError):
 
 
 class SimulatedFailure(TransientError):
-    """A failure provoked on propuse through ``simulate_failures``."""
+    """A failure provoked on purpose through ``simulate_failures``."""

@@ -1,5 +1,4 @@
-"""Atomic read/write of the JSON files y data/ (inventory and ledger).
-"""
+"""Atomic read/write of the JSON files in data/ (inventory and ledger)."""
 
 import json
 import os
@@ -14,13 +13,13 @@ def read_json(path, default):
 
     Args:
         path: File to read.
-        default: Value returned when the files does not exist.
+        default: Value returned when the file does not exist.
 
     Returns:
-        The parsed JSON valud, or default.
+        The parsed JSON value, or default.
 
     Raises:
-        StateError: If the file exists but is not valid JSON.           
+        StateError: If the file exists but is not valid JSON.
     """
 
     path = Path(path)
@@ -31,7 +30,7 @@ def read_json(path, default):
     try:
         return json.loads(text)
     except json.JSONDecodeError as error:
-        raise StateError(f"{path.name} is corrupted") from error
+        raise StateError(f"{path.name} está corrupto") from error
 
 
 def write_json_atomic(path, data):
@@ -48,9 +47,9 @@ def write_json_atomic(path, data):
         OSError: If the disk write fails.
         TypeError: If data is not JSON-serializable.
 
-    Side-Effects:
+    Side Effects:
         Writes a temporary file next to the destination, forces it to disk
-        (``fsync``) and the swaps it in with ``os.replace``.
+        (``fsync``) and then swaps it in with ``os.replace``.
     """
 
     path = Path(path)

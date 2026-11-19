@@ -1,4 +1,4 @@
-"""HMAC-SHA256 signature of the webhook: """
+"""HMAC-SHA256 signature of the webhook: ``t=<epoch>,v1=<64 hex>``."""
 
 import hashlib
 import hmac
@@ -73,7 +73,7 @@ def _parse(header):
     for part in parts:
         key, sep, value = part.partition("=")
         if not sep or key in found or key not in ("t", "v1"):
-            raise SignatureError("firma mal formada o duplicada.")
+            raise SignatureError("firma mal formada o duplicada")
         found[key] = value
     if set(found) != {"t", "v1"}:
         raise SignatureError("faltan t o v1")
@@ -81,7 +81,7 @@ def _parse(header):
     if not (stamp.isascii() and stamp.isdigit()):
         raise SignatureError("t no es un epoch")
     if not _HEX64.fullmatch(found["v1"]):
-        raise SignatureError("v1 no son 64 hex en minuscula")
+        raise SignatureError("v1 no son 64 hex en minúscula")
     return int(stamp), found["v1"]
 
 
@@ -109,7 +109,7 @@ def verify(secret, header, body, now=None):
     timestamp, provided = _parse(header)
     now = time.time() if now is None else now
     if abs(now - timestamp) > WINDOW_SECONDS:
-        raise SignatureError("timestamp fuera de la ventana de 300 s.")
+        raise SignatureError("timestamp fuera de la ventana de 300 s")
     expected = _digest(secret, timestamp, body)
     if not hmac.compare_digest(expected, provided):
         raise SignatureError("la firma no coincide")

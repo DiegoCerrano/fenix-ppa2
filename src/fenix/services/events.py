@@ -16,7 +16,7 @@ EVENT_TYPES = {"instance.stopped": "ec2", "bucket.tags_missing": "s3"}
 def validate(event, inventory):
     """Validate an event and return a clean copy of it.
 
-    Args: 
+    Args:
         event: Whatever was decoded from JSON (expected: a dict).
         inventory: Dict with a ``resources`` mapping alias -> resource.
 
@@ -37,7 +37,7 @@ def validate(event, inventory):
     """
 
     if not isinstance(event, dict):
-        raise ValidationError("The event must be a JSON object")
+        raise ValidationError("el evento debe ser un objeto JSON")
     missing = FIELDS - set(event)
     extra = set(event) - FIELDS
     if missing:
@@ -49,12 +49,12 @@ def validate(event, inventory):
     identifier(event["resource_id"], "resource_id")
     kind = event["event_type"]
     if not isinstance(kind, str) or kind not in EVENT_TYPES:
-        raise ValidationError("event_type desconocido.")
+        raise ValidationError("event_type desconocido")
     resource = inventory.get("resources", {}).get(event["resource_id"])
     if resource is None:
-        raise ValidationError("resource_id no esta en el inventario.")
+        raise ValidationError("resource_id no está en el inventario")
     if resource.get("type") != EVENT_TYPES[kind]:
-        raise ValidationError("event_type no corresponde a ese recurso.")
+        raise ValidationError("event_type no corresponde a ese recurso")
     utc_text(event["occurred_at"], "occurred_at")
     bounded_int(event["simulate_failures"], 0, 5, "simulate_failures")
     return dict(event)

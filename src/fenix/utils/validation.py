@@ -14,7 +14,7 @@ def identifier(value, field="id"):
     """Check that a value is a lowercase slug of 3 to 32 characters.
 
     Args:
-        value: Any object comming from the outside world.
+        value: Any object coming from the outside world.
         field: Name of the field, used only in the error message.
 
     Returns:
@@ -22,19 +22,19 @@ def identifier(value, field="id"):
 
     Raises:
         ValidationError: If value is not a string made only of
-        ``[a-z0-9-]`` with a lenght between 3 and 32.
+        ``[a-z0-9-]`` with a length between 3 and 32.
 
-    Notes:    
-        ``fullmatch`` is used on purpose: ``match`` plus `$` would let
+    Notes:
+        ``fullmatch`` is used on purpose: ``match`` plus ``$`` would let
         a trailing newline slip through.
     """
 
     if not isinstance(value, str) or not _ID.fullmatch(value):
-        raise ValidationError(f"{field} must be text [a-z0-9-]{{3,32}}")
+        raise ValidationError(f"{field} debe ser texto [a-z0-9-]{{3,32}}")
     return value
 
 
-def utc_text(value, field="date"):
+def utc_text(value, field="fecha"):
     """Parse an ISO-8601 string that carries an explicit UTC offset.
 
     Args:
@@ -45,19 +45,19 @@ def utc_text(value, field="date"):
         A timezone-aware ``datetime`` expressed in UTC.
 
     Raises:
-        ValidationError: If value is not exist, is not ISO-8601, has no timezone,
-        or its offset is not zero.
+        ValidationError: If value is not text, is not ISO-8601, has no
+            timezone, or its offset is not zero.
     """
 
     if not isinstance(value, str):
-        raise ValidationError(f"{field} must be text ISO-8601")
+        raise ValidationError(f"{field} debe ser texto ISO-8601")
     try:
         moment = datetime.fromisoformat(value)
     except ValueError as error:
         raise ValidationError(
-            f"{field} is not a valid ISO-8601 datetime") from error
+            f"{field} no es una fecha ISO-8601") from error
     if moment.tzinfo is None or moment.utcoffset() != timedelta(0):
-        raise ValidationError(f"{field} must contain explicit UTC (Z)")
+        raise ValidationError(f"{field} debe llevar UTC explícito (Z)")
 
     return moment.astimezone(timezone.utc)
 
@@ -69,7 +69,7 @@ def utc_now_text():
         None.
 
     Returns:
-        A string such as a ``2026-11-10T18:00:00Z``.
+        A string such as ``2026-11-10T18:00:00Z``.
 
     Raises:
         None.
@@ -78,7 +78,7 @@ def utc_now_text():
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
-def bounded_int(value, minimum, maximum, field="number"):
+def bounded_int(value, minimum, maximum, field="numero"):
     """Check that a value is an integer inside an inclusive range.
 
     Args:
@@ -92,14 +92,14 @@ def bounded_int(value, minimum, maximum, field="number"):
 
     Raises:
         ValidationError: If value is not an ``int``, is a ``bool``
-        (even through ``True == 1`` in Python) or falls outside the range.
+        (even though ``True == 1`` in Python) or falls outside the range.
     """
 
     if isinstance(value, bool) or not isinstance(value, int):
-        raise ValidationError(f"{field} must be an integer.")
+        raise ValidationError(f"{field} debe ser un entero")
     if not minimum <= value <= maximum:
         raise ValidationError(
-            f"{field} must be between {minimum} and {maximum}")
+            f"{field} debe estar entre {minimum} y {maximum}")
     return value
 
 
@@ -117,9 +117,9 @@ def ttl_seconds(created_epoch, ttl, now=None):
     Raises:
         None.
 
-    Note:
-        Fenix does not use it to operate; it is kept as a shared 
-    helper practice required by the assignment.
+    Notes:
+        Fenix does not use it to operate; it is kept as a shared helper
+        practice required by the assignment.
     """
 
     now = time.time() if now is None else now

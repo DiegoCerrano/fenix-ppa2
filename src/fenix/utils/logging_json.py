@@ -1,5 +1,4 @@
-"""JSON logs : in-memory queue + writter thread + gzip rotation.
-"""
+"""JSON logs: in-memory queue + writer thread + gzip rotation."""
 
 import gzip
 import json
@@ -30,30 +29,29 @@ logging.getLogger("fenix").addHandler(logging.NullHandler())
 
 
 def sanitize(text):
-    """Hide private ULRs, tokens and full signature inside a text.
+    """Hide private URLs, tokens and full signatures inside a text.
 
     Args:
         text: Any log text.
 
     Returns:
-        The text with Slack webhook URLs, Slack tokens and ``v1=`` HMAC signatures
-        replaced by ``[hidden]``.
+        The text with Slack webhook URLs, Slack tokens and ``v1=`` HMAC
+        signatures replaced by ``[oculto]``.
 
     Raises:
         None.
     """
 
     for pattern in _SECRETS:
-        text = pattern.sub("[Hidden]", text)
+        text = pattern.sub("[oculto]", text)
         return text
 
 
 class JsonFormatter(logging.Formatter):
-    """Format every record as one JSON line with
-    fixed context fields."""
+    """Format every record as one JSON line with fixed context fields."""
 
     def format(self, record):
-        """Turn a log inteo a JSON line.
+        """Turn a log record into a JSON line.
 
         Args:
             record: The ``logging.LogRecord`` to format.
@@ -167,7 +165,7 @@ def build_file_handler(path, max_bytes=None, backups=5):
     Args:
         path: Log file to write.
         max_bytes: Size that triggers rotation. Defaults to the
-        ``FENIX_LOG_MAX_BYTES`` setting, use a small value in tests.
+        ``FENIX_LOG_MAX_BYTES`` setting; use a small value in tests.
     backups: How many compressed history files to keep.
 
     Returns:
@@ -175,7 +173,7 @@ def build_file_handler(path, max_bytes=None, backups=5):
 
     Raises:
         OSError: If the file cannot be opened.
-        ValueError: If ``FENIX_LOG_MAX_BYTES`` is not an integer.    
+        ValueError: If ``FENIX_LOG_MAX_BYTES`` is not an integer.
     """
 
     handler = logging.handlers.RotatingFileHandler(
