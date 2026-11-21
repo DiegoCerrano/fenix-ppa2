@@ -15,10 +15,10 @@ repara: solo autentica, valida y encola.
 
 | Rol | Apellido y nombre | Correo | Módulos | Pruebas |
 |-----|-------------------|--------|---------|---------|
-| I1  |                   |        | errors, validation, events | F06 F07 |
-| I2  |                   |        | sqs, demo | F01 F08 F10 F13 |
-| I3  |                   |        | crypto, receiver, repair | F02-F05 F09 |
-| I4  |                   |        | logging_json, notifications | F14 F16 |
+| I1  | Aleman, Ignacio Agustin | — | errors, validation, events | F06 F07 |
+| I2  | Escariz, Alejandro | — | sqs, demo | F01 F08 F10 F13 |
+| I3  | Marroquin, Enrique | — | crypto, receiver, repair | F02-F05 F09 |
+| I4  | Ferreyra, Maria Belen | — | logging_json, notifications | F14 F16 |
 | I5  | Cerrano, Diego    | diegocerranoarg@gmail.com | worker, handle, cli, tests | F11 F12 F15 |
 
 Somos cinco integrantes: las pruebas del rol 6 se repartieron entre todos.
